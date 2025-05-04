@@ -1,9 +1,13 @@
 import * as LucideIcons from "lucide-react";
 
-export default function Icon({ name }: { name: string }) {
-    const LucideIcon = (LucideIcons as any)[name]
+interface IconProps {
+    name: string
+}
 
-    if (!LucideIcon) return <LucideIcons.Ban color="red" />
+export default function Icon({ name }: IconProps){
+    const LucidIcon = (LucideIcons as any)[name]
 
-    return <LucideIcon />
+    if(!LucidIcon) return <LucideIcons.Ban color="red" />
+
+    return <LucidIcon />
 }
