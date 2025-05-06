@@ -1,4 +1,5 @@
 "use client"
+import { login } from "@/actions/user-actions"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -10,13 +11,14 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
+import { useActionState } from "react"
 
 const initialState = {
   error: "",
 }
 
 export function LoginForm() {
-  
+  const [state, formAction, pending] = useActionState(login, initialState)
   
   return (
     <div className="flex flex-col gap-6">
@@ -28,7 +30,7 @@ export function LoginForm() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form >
+          <form action={formAction}>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
@@ -46,10 +48,12 @@ export function LoginForm() {
                 </div>
                 <Input id="password" type="password" name="password" required />
               </div>
-              <Button type="submit" className="w-full" >
+              <Button type="submit" className="w-full" disabled={pending}>
                 Login
               </Button>
-                    
+              <span className="text-destructive text-sm">
+                {state.error}
+              </span>
             </div>
             <div className="mt-4 text-center text-sm">
               Ainda não tem conta? {" "}

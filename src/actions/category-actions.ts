@@ -1,3 +1,6 @@
+"use server"
+
+import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
 const API_URL = "http://localhost:8080/categories"
@@ -9,6 +12,9 @@ export async function getCategories() {
 
 
 export async function createCategory(initialState: any, formData: FormData){
+    var cookiesStore = await cookies()
+    var token = cookiesStore.get("token")
+
     const data = {
         name: formData.get("name"),
         icon: formData.get("icon")
@@ -17,7 +23,8 @@ export async function createCategory(initialState: any, formData: FormData){
     const options = {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
         },
         body: JSON.stringify(data)
     }
